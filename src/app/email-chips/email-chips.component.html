@@ -1,0 +1,19 @@
+<form [formGroup]="emailForm">
+  <mat-form-field appearance="fill">
+    <mat-chip-grid #chipList="matChipGrid">
+      <mat-chip-row *ngFor="let email of emails.controls; let i = index" [disabled]="email.disabled">
+        {{ email.value }}
+        <button matChipRemove *ngIf="!email.disabled" (click)="removeEmail(i)">
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip-row>
+      <input
+        [formControl]="emailForm.get('emails')"
+        [matChipInputFor]="chipList"
+        (matChipInputTokenEnd)="onEmailInput($event)"
+        placeholder="Add email..."
+      />
+    </mat-chip-grid>
+    <mat-error *ngIf="emails.invalid">Maximum 5 emails allowed</mat-error>
+  </mat-form-field>
+</form>

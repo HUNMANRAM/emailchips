@@ -1,0 +1,32 @@
+<mat-form-field appearance="fill">
+    <mat-chip-grid #chipGrid>
+      <mat-chip-row 
+        *ngFor="let email of emails; let i = index" 
+        [disabled]="i === 0" 
+        (removed)="remove(i)">
+        
+        {{ email }}
+        
+        <button matChipRemove *ngIf="i !== 0">
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip-row>
+      
+      <input
+        matInput
+        placeholder="Enter email (@slv.com only)..."
+        [formControl]="emailControl"
+        (matChipInputTokenEnd)="add($event)"
+        [matChipInputFor]="chipGrid"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+      />
+    </mat-chip-grid>
+    
+    <mat-error *ngIf="emailControl.hasError('invalidDomain')">
+     Email must end 
+    </mat-error>
+    <mat-error *ngIf="emailControl.hasError('email')">
+      Please enter a valid email address.
+    </mat-error>
+  </mat-form-field>
+  
